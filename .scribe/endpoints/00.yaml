@@ -1,0 +1,301 @@
+name: Endpoints
+description: ''
+endpoints:
+  -
+    httpMethods:
+      - POST
+    uri: api/register
+    metadata:
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Registra un nuevo usuario en el sistema.'
+      description: |-
+        Este método valida los datos del usuario, crea un nuevo usuario en la base de datos y
+        genera una respuesta con la información del usuario creado.
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      name:
+        name: name
+        description: 'requerido El nombre del usuario.'
+        required: false
+        example: distinctio
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      email:
+        name: email
+        description: 'requerido El correo electrónico del usuario. Este debe ser único.'
+        required: false
+        example: rafaela45@example.net
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      password:
+        name: password
+        description: 'requerido La contraseña del usuario, debe estar confirmada y tener un mínimo de 8 caracteres.'
+        required: false
+        example: "'fiD~;]"
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      password_confirmation:
+        name: password_confirmation
+        description: 'requerido La confirmación de la contraseña, debe coincidir con el campo de la contraseña.'
+        required: false
+        example: doloribus
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+    cleanBodyParameters:
+      name: distinctio
+      email: rafaela45@example.net
+      password: "'fiD~;]"
+      password_confirmation: doloribus
+    fileParameters: []
+    responses:
+      -
+        status: 201
+        content: |-
+          {
+           "user": {
+               "id": 1,
+               "name": "Juan Pérez",
+               "email": "juan@example.com",
+               "created_at": "2025-01-28T00:00:00.000000Z",
+               "updated_at": "2025-01-28T00:00:00.000000Z"
+           }
+          }
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 400
+        content: |-
+          {
+           "name": ["El campo name es obligatorio."],
+           "email": ["El campo email es obligatorio."],
+           "password": ["El campo password es obligatorio."],
+           "password_confirmation": ["El campo password confirmation es obligatorio."]
+          }
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: api/login
+    metadata:
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Inicia sesión de un usuario con email y contraseña.'
+      description: 'Si las credenciales son correctas, genera un token JWT para la sesión del usuario.'
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      email:
+        name: email
+        description: 'requerido El correo electrónico del usuario.'
+        required: false
+        example: camilla.kub@example.org
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      password:
+        name: password
+        description: 'requerido La contraseña del usuario.'
+        required: false
+        example: '0_}&P/0"\oanq1Q9#H'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+    cleanBodyParameters:
+      email: camilla.kub@example.org
+      password: '0_}&P/0"\oanq1Q9#H'
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: |-
+          {
+           "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+           "token_type": "bearer",
+           "expires_in": 3600
+          }
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 401
+        content: |-
+          {
+           "error": "Unauthorized"
+          }
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: api/auth/logout
+    metadata:
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Cierra la sesión del usuario autenticado.'
+      description: 'Este método revoca el token JWT actual y finaliza la sesión del usuario.'
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: |-
+          {
+           "message": "Successfully logged out"
+          }
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: api/auth/refresh
+    metadata:
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Renueva el token JWT del usuario.'
+      description: 'Este método genera un nuevo token JWT para el usuario autenticado.'
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: |-
+          {
+           "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+           "token_type": "bearer",
+           "expires_in": 3600
+          }
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: api/auth/me
+    metadata:
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Devuelve la información del usuario autenticado.'
+      description: 'Este método devuelve los datos del usuario que está autenticado con el token JWT.'
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: |-
+          {
+           "id": 1,
+           "name": "Juan Pérez",
+           "email": "juan@example.com",
+           "created_at": "2025-01-28T00:00:00.000000Z",
+           "updated_at": "2025-01-28T00:00:00.000000Z"
+          }
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []

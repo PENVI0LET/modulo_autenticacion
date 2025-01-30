@@ -1,0 +1,280 @@
+openapi: 3.0.3
+info:
+  title: Laravel
+  description: ''
+  version: 1.0.0
+servers:
+  -
+    url: '{{ config("app.url") }}'
+paths:
+  /api/register:
+    post:
+      summary: 'Registra un nuevo usuario en el sistema.'
+      operationId: registraUnNuevoUsuarioEnElSistema
+      description: "Este método valida los datos del usuario, crea un nuevo usuario en la base de datos y\ngenera una respuesta con la información del usuario creado."
+      parameters: []
+      responses:
+        201:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  user:
+                    id: 1
+                    name: 'Juan Pérez'
+                    email: juan@example.com
+                    created_at: '2025-01-28T00:00:00.000000Z'
+                    updated_at: '2025-01-28T00:00:00.000000Z'
+                properties:
+                  user:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      name:
+                        type: string
+                        example: 'Juan Pérez'
+                      email:
+                        type: string
+                        example: juan@example.com
+                      created_at:
+                        type: string
+                        example: '2025-01-28T00:00:00.000000Z'
+                      updated_at:
+                        type: string
+                        example: '2025-01-28T00:00:00.000000Z'
+        400:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  name:
+                    - 'El campo name es obligatorio.'
+                  email:
+                    - 'El campo email es obligatorio.'
+                  password:
+                    - 'El campo password es obligatorio.'
+                  password_confirmation:
+                    - 'El campo password confirmation es obligatorio.'
+                properties:
+                  name:
+                    type: array
+                    example:
+                      - 'El campo name es obligatorio.'
+                    items:
+                      type: string
+                  email:
+                    type: array
+                    example:
+                      - 'El campo email es obligatorio.'
+                    items:
+                      type: string
+                  password:
+                    type: array
+                    example:
+                      - 'El campo password es obligatorio.'
+                    items:
+                      type: string
+                  password_confirmation:
+                    type: array
+                    example:
+                      - 'El campo password confirmation es obligatorio.'
+                    items:
+                      type: string
+      tags:
+        - Endpoints
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'requerido El nombre del usuario.'
+                  example: distinctio
+                  nullable: false
+                email:
+                  type: string
+                  description: 'requerido El correo electrónico del usuario. Este debe ser único.'
+                  example: rafaela45@example.net
+                  nullable: false
+                password:
+                  type: string
+                  description: 'requerido La contraseña del usuario, debe estar confirmada y tener un mínimo de 8 caracteres.'
+                  example: "'fiD~;]"
+                  nullable: false
+                password_confirmation:
+                  type: string
+                  description: 'requerido La confirmación de la contraseña, debe coincidir con el campo de la contraseña.'
+                  example: doloribus
+                  nullable: false
+      security: []
+  /api/login:
+    post:
+      summary: 'Inicia sesión de un usuario con email y contraseña.'
+      operationId: iniciaSesinDeUnUsuarioConEmailYContrasea
+      description: 'Si las credenciales son correctas, genera un token JWT para la sesión del usuario.'
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  access_token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+                  token_type: bearer
+                  expires_in: 3600
+                properties:
+                  access_token:
+                    type: string
+                    example: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+                  token_type:
+                    type: string
+                    example: bearer
+                  expires_in:
+                    type: integer
+                    example: 3600
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  error: Unauthorized
+                properties:
+                  error:
+                    type: string
+                    example: Unauthorized
+      tags:
+        - Endpoints
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: 'requerido El correo electrónico del usuario.'
+                  example: camilla.kub@example.org
+                  nullable: false
+                password:
+                  type: string
+                  description: 'requerido La contraseña del usuario.'
+                  example: '0_}&P/0"\oanq1Q9#H'
+                  nullable: false
+      security: []
+  /api/auth/logout:
+    post:
+      summary: 'Cierra la sesión del usuario autenticado.'
+      operationId: cierraLaSesinDelUsuarioAutenticado
+      description: 'Este método revoca el token JWT actual y finaliza la sesión del usuario.'
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'Successfully logged out'
+                properties:
+                  message:
+                    type: string
+                    example: 'Successfully logged out'
+      tags:
+        - Endpoints
+      security: []
+  /api/auth/refresh:
+    post:
+      summary: 'Renueva el token JWT del usuario.'
+      operationId: renuevaElTokenJWTDelUsuario
+      description: 'Este método genera un nuevo token JWT para el usuario autenticado.'
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  access_token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+                  token_type: bearer
+                  expires_in: 3600
+                properties:
+                  access_token:
+                    type: string
+                    example: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+                  token_type:
+                    type: string
+                    example: bearer
+                  expires_in:
+                    type: integer
+                    example: 3600
+      tags:
+        - Endpoints
+      security: []
+  /api/auth/me:
+    get:
+      summary: 'Devuelve la información del usuario autenticado.'
+      operationId: devuelveLaInformacinDelUsuarioAutenticado
+      description: 'Este método devuelve los datos del usuario que está autenticado con el token JWT.'
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  id: 1
+                  name: 'Juan Pérez'
+                  email: juan@example.com
+                  created_at: '2025-01-28T00:00:00.000000Z'
+                  updated_at: '2025-01-28T00:00:00.000000Z'
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  name:
+                    type: string
+                    example: 'Juan Pérez'
+                  email:
+                    type: string
+                    example: juan@example.com
+                  created_at:
+                    type: string
+                    example: '2025-01-28T00:00:00.000000Z'
+                  updated_at:
+                    type: string
+                    example: '2025-01-28T00:00:00.000000Z'
+      tags:
+        - Endpoints
+      security: []
+tags:
+  -
+    name: Endpoints
+    description: ''
+components:
+  securitySchemes:
+    default:
+      type: http
+      scheme: bearer
+      description: 'Para autenticarte, utiliza el token Bearer en el header Authorization.'
+security:
+  -
+    default: []

@@ -1,0 +1,228 @@
+{
+    "variable": [
+        {
+            "id": "baseUrl",
+            "key": "baseUrl",
+            "type": "string",
+            "name": "string",
+            "value": "{{ config(\"app.url\") }}"
+        }
+    ],
+    "info": {
+        "name": "Laravel",
+        "_postman_id": "3c5fdd1d-8314-481f-8215-abd02c9b8839",
+        "description": "",
+        "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json",
+        "version": "1.0.0"
+    },
+    "item": [
+        {
+            "name": "Endpoints",
+            "description": "",
+            "item": [
+                {
+                    "name": "Registra un nuevo usuario en el sistema.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/register",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/register"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"distinctio\",\"email\":\"rafaela45@example.net\",\"password\":\"'fiD~;]\",\"password_confirmation\":\"doloribus\"}"
+                        },
+                        "description": "Este m\u00e9todo valida los datos del usuario, crea un nuevo usuario en la base de datos y\ngenera una respuesta con la informaci\u00f3n del usuario creado.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 201,
+                            "body": "{\n \"user\": {\n     \"id\": 1,\n     \"name\": \"Juan P\u00e9rez\",\n     \"email\": \"juan@example.com\",\n     \"created_at\": \"2025-01-28T00:00:00.000000Z\",\n     \"updated_at\": \"2025-01-28T00:00:00.000000Z\"\n }\n}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 400,
+                            "body": "{\n \"name\": [\"El campo name es obligatorio.\"],\n \"email\": [\"El campo email es obligatorio.\"],\n \"password\": [\"El campo password es obligatorio.\"],\n \"password_confirmation\": [\"El campo password confirmation es obligatorio.\"]\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Inicia sesi\u00f3n de un usuario con email y contrase\u00f1a.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/login",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/login"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"email\":\"camilla.kub@example.org\",\"password\":\"0_}&P\\\/0\\\"\\\\oanq1Q9#H\"}"
+                        },
+                        "description": "Si las credenciales son correctas, genera un token JWT para la sesi\u00f3n del usuario.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n \"access_token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...\",\n \"token_type\": \"bearer\",\n \"expires_in\": 3600\n}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 401,
+                            "body": "{\n \"error\": \"Unauthorized\"\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Cierra la sesi\u00f3n del usuario autenticado.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/auth\/logout",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/auth\/logout"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Este m\u00e9todo revoca el token JWT actual y finaliza la sesi\u00f3n del usuario.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n \"message\": \"Successfully logged out\"\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Renueva el token JWT del usuario.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/auth\/refresh",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/auth\/refresh"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Este m\u00e9todo genera un nuevo token JWT para el usuario autenticado.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n \"access_token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...\",\n \"token_type\": \"bearer\",\n \"expires_in\": 3600\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Devuelve la informaci\u00f3n del usuario autenticado.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/auth\/me",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/auth\/me"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Este m\u00e9todo devuelve los datos del usuario que est\u00e1 autenticado con el token JWT.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n \"id\": 1,\n \"name\": \"Juan P\u00e9rez\",\n \"email\": \"juan@example.com\",\n \"created_at\": \"2025-01-28T00:00:00.000000Z\",\n \"updated_at\": \"2025-01-28T00:00:00.000000Z\"\n}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "auth": {
+        "type": "bearer",
+        "bearer": [
+            {
+                "key": "Authorization",
+                "type": "string"
+            }
+        ]
+    }
+}
